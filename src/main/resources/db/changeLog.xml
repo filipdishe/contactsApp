@@ -1,0 +1,51 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Create the 'user' table -->
+    <changeSet author="filipdishe" id="1">
+        <createTable tableName="user">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Create the 'address_book' table -->
+    <changeSet author="filipdishe" id="2">
+        <createTable tableName="address_book">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="address" type="VARCHAR(100)"/>
+            <column name="mobile_phone" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vat" type="NUMERIC(4, 2)"/>
+            <column name="company_name" type="VARCHAR(100)"/>
+            <column name="user_id" type="INT">
+                <constraints nullable="true" references="user(id)" foreignKeyName="fk_user_id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="filipdishe" id="6">
+        <!-- Modify the 'user_id' column to be of type BIGINT -->
+        <modifyDataType tableName="address_book" columnName="user_id" newDataType="BIGINT"/>
+    </changeSet>
+</databaseChangeLog>
